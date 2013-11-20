@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ProfitCalculator</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<div id="image", align="center">
+    <%= image_tag("ciao_banner.jpg") %>
+</div>
+<body>
+<% if session[:authenticated] %>
+  <ul class="nav">
+      <div id="inner_table_wrapper", align="center">
+        <li><a href="/dashboard/">Today's Call Traffic</a></li>
+        <li><a href="/dashboard/topCustomers">Top Direct Customers</a></li>
+        <li><a href="/dashboard/topResellers">Top Resellers</a></li>
+        <li><a href="/dashboard/topCarriers">Top Carriers</a></li>
+        <li><a href="/sessions/destroy">Logout</a></li>||
+        <li> Logged in as <strong><%= session[:current_login] %></strong>.<br></li>
+      </div>
+  </ul>
+<% end %>
+<% if notice %>
+  <p class="alert alert-notice"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-error"><%= alert %></p>
+<% end %>
+<%= yield %>
+</body>
+</html>

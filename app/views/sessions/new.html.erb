@@ -1,0 +1,16 @@
+<div id="login">
+	<h2><span class="fontawesome-lock"></span>Sign In</h2>
+
+	<form action="/sessions/create" method="POST">
+	<fieldset>
+		<p><label for="email">Login</label></p>
+		<p><input name="email" type="name" id="email" value="mail@address.com" onBlur="if(this.value=='')this.value='mail@address.com'" onFocus="if(this.value=='mail@address.com')this.value=''"></p> <!-- JS because of IE support; better: placeholder="mail@address.com" -->
+
+		<p><label for="password">Password</label></p>
+		<p><input name="password" type="password" id="password" value="password" onBlur="if(this.value=='')this.value='password'" onFocus="if(this.value=='password')this.value=''"></p> <!-- JS because of IE support; better: placeholder="password" -->
+
+		<p><input type="submit" value="Sign In"></p>
+	</fieldset>
+
+	</form>
+</div>

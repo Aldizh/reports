@@ -1,0 +1,63 @@
+<div id="inner_table_wrapper", align="center">
+	<%= form_tag(:action => 'topCarriers') do %>
+		<%= label_tag "from" %>
+		<%= date_select("viewFrom", "from", :default => Time.now, :order => [:day, :month, :year]) %>
+		<%= label_tag "to" %>
+		<%= date_select("viewTo", "to", :default => Time.now, :order => [:day, :month, :year])%>
+		<%= label_tag "Currency" %>
+		<%= select_tag "curr", options_for_select(@vendor_curr, @currency) %>
+		<input type="submit" class="styled-button-7" value="Filter" />
+	<style type="text/css">
+	.styled-button-7 {
+		background:#F0F0F0;
+		color:blue;
+		font-family:'Helvetica Neue',sans-serif;
+		font-size:13px;
+		border-radius:2px;
+	}
+	</style>
+	<% end %>
+	<strong>Top 20 Carriers!</strong>
+
+	<table>
+		<thead>
+			<th><%= link_to "Name", :sort_by => "name", :action => "topCarriers" %></th>
+			<th><%= link_to "Revenue", :sort_by => "revenue", :action => "topCarriers" %></th>
+			<th><%= link_to "Cost", :sort_by => "cost", :action => "topCarriers" %></th>
+			<th><%= link_to "Margin", :sort_by => "margin", :action => "topCarriers" %></th>
+			<th><%= link_to "% Margin", :sort_by => "margin", :action => "topCarriers" %></th>
+			<th><%= link_to "Minutes", :sort_by => "minutes", :action => "topCarriers" %></th>
+			<th><%= "Number of Calls" %></th>
+			<th><%= "ACD" %></th>
+		</thead>
+		<tbody>
+			<% @vendor_curr.each do |curr| %>
+				<% if @currency.eql?(curr) %>
+					<% if @currency.eql?("Show all (USD)") %>
+					  <% temp = "$" %>
+					 <% else %>
+					  <% temp = curr %>
+					<% end %>
+					<% @selected[0..20].each do |key, value| %>
+					  <tr>
+						<td><%= link_to "#{key}", :id => "#{value[5]}", :name => "#{key}", :action => "carrierInfo" %></td>
+						<td><%= "#{temp} " %><%= (value[0].to_f).round(2) %></td>
+						<td><%= "#{temp} " %><%= (value[1].to_f).round(2) %></td>
+						<td><%= "#{temp} " %><%= (value[2].to_f).round(2) %></td>
+						<% per = (value[2]/value[0] * 100).to_f.round(2) %>
+						<% if per >= 0 %>
+							<td><%= per.to_s + '%'%></td>
+						<% else %>
+							<td><%= "N/A" %></td>
+						<% end %>
+						<td><%=  ("#{value[3]}").to_i %></td>
+						<td><%= "#{value[4]}" %></td>
+						<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
+						<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+					  </tr>
+					<% end %>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+</div>

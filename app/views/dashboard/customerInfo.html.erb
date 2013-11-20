@@ -1,0 +1,55 @@
+<div id="inner_table_wrapper", align="center">
+	<%= form_tag(:action => 'customerInfo') do %>
+		<%= label_tag "from" %>
+		<%= date_select("viewFrom", "from", :default => Time.now, :order => [:day, :month, :year]) %>
+		<%= label_tag "to" %>
+		<%= date_select("viewTo", "to", :default => Time.now, :order => [:day, :month, :year])%>
+		<%= hidden_field_tag 'id', @id %>
+		<input type="submit" class="styled-button-7" value="Filter" />
+		<style type="text/css">
+		.styled-button-7 {
+			background:#F0F0F0;
+			color:blue;
+			font-family:'Helvetica Neue',sans-serif;
+			font-size:13px;
+			border-radius:2px;
+		}
+		</style>
+	<% end %>
+	<strong>Top 10 Destinations for <%= "#{@name}" %>! </strong>
+
+	<table>
+		<thead>
+			<th><%= link_to "Description", :sort_by => "name", :action => "customerInfo" %></th>
+			<th><%= link_to "Revenue",  :sort_by => "revenue", :action => "customerInfo" %></th>
+			<th><%= link_to "Cost", :sort_by => "cost", :action => "customerInfo" %></th>
+			<th><%= link_to "Margin", :sort_by => "margin", :action => "customerInfo" %></th>
+			<th><%= link_to "%", :sort_by => "margin", :action => "customerInfo" %></th>
+			<th><%= link_to "Minutes", :sort_by => "minutes", :action => "customerInfo" %></th>
+			<th><%= link_to "Number of Calls", :sort_by => "calls", :action => "customerInfo" %></th>
+		</thead>
+		<tbody>
+			<% @top_10_destinations_final[0..10].each do |key, value| %>
+			  <tr>
+				<td><%= key %></td>
+				<td><%= "$ " %><%= value[0].to_f.round(3) %></td>
+				<td><%= "$ " %><%=  value[1].to_f.round(3) %></td>
+				<td><%= "$ " %><%= value[2].to_f.round(3) %></td>
+				<% per = (value[2]/value[0] * 100).to_f.round(0) %>
+				<td><%= per.to_s + '%'%></td>
+				<td><%=  ("#{value[3]}").to_i %></td>
+				<td><%=  ("#{value[4]}") %></td>
+			  </tr>
+			<% end %>
+			<tr>
+				<td><%= "Total:" %></td>
+				<td><%= "$ " %><%= @total_revenue.round(2) %></td>
+				<td><%= "$ " %><%= @total_cost.round(2) %></td>
+				<td><%= "$ " %><%= (@total_revenue-@total_cost).round(2) %></td>
+				<td></td>
+				<td><%= @total_minutes.to_f.round(0) %></td>
+				<td><%= @total_calls %></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,98 @@
+<div id="table_wrapper">	
+	<div id="table_left">
+	<strong>Top 20 Customers!</strong>
+	<table>
+		<thead>
+			<th><%= "Name" %></th>
+			<th><%= "Revenue" %></th>
+			<th><%= "Cost" %></th>
+			<th><%= "Margin" %></th>
+			<th><%= "%" %></th>
+			<th><%= "Minutes" %></th>
+			<th><%= "Number of Calls" %></th>
+			<th><%= "ACD" %></th>
+		</thead>
+		<tbody>
+			<% @selected_customers[0..20].each do |key, value| %>
+			  <tr>
+				<td><%= link_to "#{key}", :id => "#{value[5]}" ,:action => "customerInfo" %></td>
+				<td><%= "$" %><%= value[0].to_f.round(2) %></td>
+				<td><%= "$" %><%=  value[1].to_f.round(2) %></td>
+				<td><%= "$" %><%= value[2].to_f.round(2) %></td>
+				<% per = (value[2]/value[0] * 100).to_f.round(0) %>
+				<td><%= per.to_s + "%"%></td>
+				<td><%=  ("#{value[3]}").to_i %></td>
+				<td><%= "#{value[4]}" %></td>
+				<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
+				<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+			  </tr>
+			<% end %>
+		</tbody>
+	</table>
+	</div>
+	<div id="table_right">
+		<strong>Top Carriers!</strong>
+
+		<table>
+			<thead>
+				<th><%= "Name" %></th>
+				<th><%= "Revenue" %></th>
+				<th><%= "Cost" %></th>
+				<th><%= "Margin" %></th>
+				<th><%= "%" %></th>
+				<th><%= "Minutes" %></th>
+				<th><%= "Number of Calls" %></th>
+				<th><%= "ACD" %></th>
+			</thead>
+			<tbody>
+				<% @selected_vendors.each do |key, value| %>
+				  <tr>
+					<td><%= link_to "#{key}", :id => "#{value[5]}", :name => "#{key}", :action => "carrierInfo" %></td>
+					<td><%= "$" %><%= (value[0].to_f).round(2) %></td>
+					<td><%= "$" %><%= (value[1].to_f).round(2) %></td>
+					<td><%= "$" %><%= (value[2].to_f).round(2) %></td>
+					<% per = (value[2]/value[0] * 100).to_f.round(0) %>
+					<td><%= per.to_s + '%'%></td>
+					<td><%=  ("#{value[3]}").to_i %></td>
+					<td><%= "#{value[4]}" %></td>
+					<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
+					<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+				  </tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="table_right">
+		<strong>Top Traffic  (Last 7 days)!</strong>
+
+		<table>
+			<thead>
+				<th><%= "Calldate" %></th>
+				<th><%= "Revenue" %></th>
+				<th><%= "Cost" %></th>
+				<th><%= "Margin" %></th>
+				<th><%= "%" %></th>
+				<th><%= "Minutes" %></th>
+				<th><%= "Number of Calls" %></th>
+				<th><%= "ACD" %></th>
+			</thead>
+			<tbody>
+				<% @week_traffic_refined.each do |key, value| %>
+				  <tr>
+				  	<td><%= key %></td>
+					<td><%= "$" %><%= (value[0].to_f).round(2) %></td>
+					<td><%= "$" %><%= (value[1].to_f).round(2) %></td>
+					<td><%= "$" %><%= (value[2].to_f).round(2) %></td>
+					<% per = (value[2]/value[0] * 100).to_f.round(0) %>
+					<td><%= per.to_s + '%'%></td>
+					<td><%=  ("#{value[3]}").to_i %></td>
+					<td><%= "#{value[4]}" %></td>
+					<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
+					<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+				  </tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
