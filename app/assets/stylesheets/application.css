@@ -110,23 +110,17 @@ input {
 
 table {
 	border-collapse: collapse;
-	margin-top: 10px;
+	margin-top: 3px;
 	text-align: center;
 }
 thead{
 	background-color:#D71920;
-	border:solid 1px;
 }
 th,td {
 	font-size: 0.7rem;
 	font-weight: 250;
 	padding:2px;
 	text-align: center;
-	color:black;
-}
-
-table{
-	border: 1px solid black;
 }
 
 #image{
@@ -135,30 +129,6 @@ table{
     overflow:auto;
 	float:center;
 	width: auto;
-}
-
-ul #inner_table_wrapper{
-	overflow:auto;
-	float:center;
-	width: 100%;
-}
-#inner_table_wrapper {
-	overflow:auto;
-	float:center;
-	width: 100%;
-}
-
-#table_wrapper {
-	overflow: auto;
-}
-#table_left {
-	width: 48%;
-	float: left;
-	padding:  0;
-}
-#table_right {
-	width: 48%;
-	float: right;
 }
 
 .list a {

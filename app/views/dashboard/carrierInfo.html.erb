@@ -1,4 +1,4 @@
-<div id="inner_table_wrapper", align="center">
+<div id="table_wrapper", align="center">
 	<%= form_tag(:action => 'carrierInfo') do %>
 		<%= label_tag "from" %>
 		<%= date_select("viewFrom", "from", :default => Time.now, :order => [:day, :month, :year]) %>
@@ -29,7 +29,7 @@
 			<th><%= link_to "Number of Calls", :sort_by => "calls", :action => "carrierInfo" %></th>
 		</thead>
 		<tbody>
-			<% @top_10_destinations_final[0..10].each do |key, value| %>
+			<% @top_10_destinations_final.first(10).each do |key, value| %>
 			  <tr>
 				<td><%= key %></td>
 				<td><%= "$ " %><%= value[0].to_f.round(3) %></td>

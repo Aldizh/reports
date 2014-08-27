@@ -1,7 +1,7 @@
 require 'sequel'
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  #DB = Sequel.connect("mysql2://reports:u2ns8uj28yshu@208.65.111.153:3306/porta-billing")
+  before_filter :set_timezone 
   def require_login
     if session[:authenticated]
       return true
@@ -219,4 +219,33 @@ def validate_login(login)
     end
   end
 
+  def set_timezone  
+   min = request.cookies["time_zone"].to_i
+   Time.zone = ActiveSupport::TimeZone[-min.minutes]
+  end 
+
+  def getFromDate
+    client_full_date = Time.now()
+    utc_time = Time.now.utc
+    final = utc_time.strftime("%Y-%m-%d %H-%M-%S")
+    hours = client_full_date.strftime("%H-%M-%S")[0..1].to_i
+    hours_difference = utc_time.strftime("%Y-%m-%d %H-%M-%S")[11..12].to_i - hours
+    if (hours_difference) < 0
+      final[8..9] = ((utc_time).strftime("%Y-%m-%d %H-%M-%S")[8..9].to_i - 1).to_s
+      final[11..12] = '00'
+    else
+      final[11..12] = ((utc_time).strftime("%Y-%m-%d %H-%M-%S")[11..12].to_i - hours).to_s
+    end
+    final[11..12] = (sprintf '%02d', final[11..12].to_i).to_s
+    final[13] = '-'
+    final[14..15] = '00'
+    final[16] = '-'
+    final[17..18] = '00'
+    final[19..22] = ' UTC'
+    return final
+  end
 end
+#Delayed::Job.enqueue CustomersController.new()
+#Delayed::Job.enqueue CarriersController.new()
+#Delayed::Job.enqueue WeekTrafficsController.new()
+Delayed::Job.enqueue ResellersController.new()

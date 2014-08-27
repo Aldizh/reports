@@ -21,11 +21,6 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    Rails.cache.delete('customer_sel')
-    Rails.cache.delete('reseller_sel')
-    Rails.cache.delete('carrier_sel')
-    Rails.cache.delete('customer_info')
-    Rails.cache.delete('carrier_info')
     reset_session
     flash[:notice] = "You are successfuly logged out!"
     redirect_to '/sessions/new'

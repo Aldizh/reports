@@ -4,8 +4,6 @@
 		<%= date_select("viewFrom", "from", :default => Time.now, :order => [:day, :month, :year]) %>
 		<%= label_tag "to" %>
 		<%= date_select("viewTo", "to", :default => Time.now, :order => [:day, :month, :year])%>
-		<%= label_tag "Currency" %>
-		<%= select_tag "curr", options_for_select(@vendor_curr, @currency) %>
 		<input type="submit" class="styled-button-7" value="Filter" />
 	<style type="text/css">
 	.styled-button-7 {
@@ -17,7 +15,7 @@
 	}
 	</style>
 	<% end %>
-	<strong>Top 20 Carriers!</strong>
+	<strong>Top Carriers!</strong>
 
 	<table>
 		<thead>
@@ -31,33 +29,34 @@
 			<th><%= "ACD" %></th>
 		</thead>
 		<tbody>
-			<% @vendor_curr.each do |curr| %>
-				<% if @currency.eql?(curr) %>
-					<% if @currency.eql?("Show all (USD)") %>
-					  <% temp = "$" %>
-					 <% else %>
-					  <% temp = curr %>
-					<% end %>
-					<% @selected[0..20].each do |key, value| %>
-					  <tr>
-						<td><%= link_to "#{key}", :id => "#{value[5]}", :name => "#{key}", :action => "carrierInfo" %></td>
-						<td><%= "#{temp} " %><%= (value[0].to_f).round(2) %></td>
-						<td><%= "#{temp} " %><%= (value[1].to_f).round(2) %></td>
-						<td><%= "#{temp} " %><%= (value[2].to_f).round(2) %></td>
-						<% per = (value[2]/value[0] * 100).to_f.round(2) %>
-						<% if per >= 0 %>
-							<td><%= per.to_s + '%'%></td>
-						<% else %>
-							<td><%= "N/A" %></td>
-						<% end %>
-						<td><%=  ("#{value[3]}").to_i %></td>
-						<td><%= "#{value[4]}" %></td>
-						<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
-						<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
-					  </tr>
-					<% end %>
+			<% @selected.each do |row| %>
+			  <tr>
+				<td><%= link_to "#{row[:name]}", :id => "#{row[:id]}", :name => "#{row[:name]}", :action => "carrierInfo" %></td>
+				<td><%= "$" %><%= row[:revenue].to_f.round(2) %></td>
+				<td><%= "$" %><%=  row[:cost].to_f.round(2) %></td>
+				<td><%= "$" %><%= row[:margin].to_f.round(2) %></td>
+				<% per = (row[:margin]/row[:revenue] * 100).to_f.round(2) %>
+				<% if per >= 0 %>
+					<td><%= per.to_s + "%"%></td>
+				<% else %>
+					<td><%= "N/A" %></td>
 				<% end %>
+				<td><%=  ("#{row[:minutes]}").to_i %></td>
+				<td><%= "#{row[:num_calls]}" %></td>
+				<% arr = (row[:minutes].to_f/row[:num_calls].to_f).to_s.split('.') %>
+				<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+			  </tr>
 			<% end %>
+			<tr style='background-color:#D71920; border:solid 1px;'>
+				<td><%= "Total:" %></td>
+				<td><%= "$ " %><%= @total_revenue.round(1) %></td>
+				<td><%= "$ " %><%= @total_cost.round(1) %></td>
+				<td><%= "$ " %><%= (@total_revenue-@total_cost).round(1) %></td>
+				<td></td>
+				<td><%= @total_minutes.to_f.round(0) %></td>
+				<td><%= @total_calls %></td>
+				<td></td>
+			</tr>
 		</tbody>
 	</table>
 </div>

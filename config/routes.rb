@@ -1,5 +1,17 @@
 ProfitCalculator::Application.routes.draw do
 
+  get "weekTraffics/index"
+
+  get "carriers/index"
+
+  get "carriers/getInfo"
+
+  get "customers/index"
+
+  get "customers/getInfo"
+  
+  post "dashboard/resellerInfo"
+  get "dashboard/resellerInfo"
   post "dashboard/carrierInfo"
   get "dashboard/carrierInfo"
   post "dashboard/customerInfo"
@@ -17,6 +29,8 @@ ProfitCalculator::Application.routes.draw do
   post "sessions/create"
   get "sessions/destroy"
   resources :sessions
+
+  get "/delayed_job" => DelayedJobWeb, :anchor => false
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

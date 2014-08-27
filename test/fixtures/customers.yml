@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  revenue: 1.5
+  cost: 1.5
+  margin: 1.5
+  minutes: 1
+
+two:
+  name: MyString
+  revenue: 1.5
+  cost: 1.5
+  margin: 1.5
+  minutes: 1

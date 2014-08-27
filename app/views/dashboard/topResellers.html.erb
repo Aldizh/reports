@@ -18,7 +18,7 @@
 	</style>
 	<% end %>
 
-	<strong>Top 20 Resellers!</strong>
+	<strong>Top Resellers!</strong>
 	<table>
 		<thead>
 			<th><%= link_to "Name", :sort_by => "name", :action => "topResellers" %></th>
@@ -39,9 +39,9 @@
 					 <% else %>
 					  <% temp = curr %>
 					<% end %>
-					<% @selected[0..20].each do |key, value| %>
+					<% @selected.each do |key, value| %>
 					  <tr>
-						<td><%= "#{key}" %></td>
+						<td><%= link_to "#{key}", :id => "#{value[6]}", :name => "#{key}", :action => "resellerInfo" %></td>
 						<td><%= "#{temp} " %><%= value[0].to_f.round(2) %></td>
 						<td><%= "#{temp} " %><%=  value[1].to_f.round(2) %></td>
 						<td><%= "#{temp} " %><%= value[2].to_f.round(2) %></td>
@@ -58,6 +58,17 @@
 						<td><%= "#{value[5]}%" %></td>
 					  </tr>
 					<% end %>
+					<tr style='background-color:#D71920; border:solid 1px;'>
+						<td><%= "Total:" %></td>
+						<td><%= "$ " %><%= @total_revenue.round(1) %></td>
+						<td><%= "$ " %><%= @total_cost.round(1) %></td>
+						<td><%= "$ " %><%= (@total_revenue-@total_cost).round(1) %></td>
+						<td></td>
+						<td><%= @total_minutes.to_f.round(0) %></td>
+						<td><%= @total_calls %></td>
+						<td></td>
+						<td></td>
+					</tr>
 				<% end %>
 			<% end %>
 		</tbody>

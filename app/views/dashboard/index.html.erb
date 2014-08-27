@@ -1,39 +1,98 @@
-<div id="table_wrapper">	
-	<div id="table_left">
-	<strong>Top 20 Customers!</strong>
-	<table>
+<table style='width=100%; cellpadding=0; cellspacing=0; border=0'>
+	<td style='width=50%; vertical-align:center;'>
+		<strong>Top Customers!</strong>
+		<table>
 		<thead>
 			<th><%= "Name" %></th>
 			<th><%= "Revenue" %></th>
 			<th><%= "Cost" %></th>
 			<th><%= "Margin" %></th>
-			<th><%= "%" %></th>
+			<th><%= "%"%></th>
 			<th><%= "Minutes" %></th>
 			<th><%= "Number of Calls" %></th>
 			<th><%= "ACD" %></th>
+			<th><%= "ASR" %></th>
 		</thead>
 		<tbody>
-			<% @selected_customers[0..20].each do |key, value| %>
-			  <tr>
-				<td><%= link_to "#{key}", :id => "#{value[5]}" ,:action => "customerInfo" %></td>
-				<td><%= "$" %><%= value[0].to_f.round(2) %></td>
-				<td><%= "$" %><%=  value[1].to_f.round(2) %></td>
-				<td><%= "$" %><%= value[2].to_f.round(2) %></td>
-				<% per = (value[2]/value[0] * 100).to_f.round(0) %>
+	
+		<% @selected_customers.each do |row| %>
+		  <tr>
+			<td><%= link_to "#{row[:name]}", :id => "#{row[:id]}", :name => "#{row[:name]}", :action => "customerInfo" %></td>
+			<td><%= "$" %><%= row[:revenue].to_f.round(2) %></td>
+			<td><%= "$" %><%=  row[:cost].to_f.round(2) %></td>
+			<td><%= "$" %><%= row[:margin].to_f.round(2) %></td>
+			<% per = (row[:margin]/row[:revenue] * 100).to_f.round(2) %>
+			<% if per >= 0 %>
 				<td><%= per.to_s + "%"%></td>
-				<td><%=  ("#{value[3]}").to_i %></td>
-				<td><%= "#{value[4]}" %></td>
-				<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
-				<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
-			  </tr>
+			<% else %>
+				<td><%= "N/A" %></td>
 			<% end %>
+			<td><%=  ("#{row[:minutes]}").to_i %></td>
+			<td><%= "#{row[:num_calls]}" %></td>
+			<% arr = (row[:minutes].to_f/row[:num_calls].to_f).to_s.split('.') %>
+			<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+			<td><%= "#{row[:asr]}%" %></td>
+		  </tr>
+		<% end %>
+		<tr style='background-color:#D71920; border:solid 1px;'>
+			<td><%= "Total:" %></td>
+			<td><%= "$ " %><%= @total_revenue_customers.round(1) %></td>
+			<td><%= "$ " %><%= @total_cost_customers.round(1) %></td>
+			<td><%= "$ " %><%= (@total_revenue_customers-@total_cost_customers).round(1) %></td>
+			<td></td>
+			<td><%= @total_minutes_customers.to_f.round(0) %></td>
+			<td><%= @total_calls_customers %></td>
+			<td></td>
+			<td></td>
+		</tr>
 		</tbody>
 	</table>
-	</div>
-	<div id="table_right">
+	</td>
+	<td style='width=50%; vertical-align:top;'>
+		<strong>Top Resellers!</strong>
+		<table style='width=100%; cellpadding=0; cellspacing=0; border=0'>
+			<thead>
+				<th><%= "Name" %></th>
+				<th><%= "Revenue" %></th>
+				<th><%= "Cost" %></th>
+				<th><%= "Margin" %></th>
+				<th><%= "%" %></th>
+				<th><%= "Minutes" %></th>
+				<th><%= "Number of Calls" %></th>
+				<th><%= "ACD" %></th>
+				<th><%= "ASR" %></th>
+			</thead>
+			<tbody>
+				<% @selected_resellers.each do |row| %>
+				  <tr>
+					<td><%= link_to "#{row[:name]}", :id => "#{row[:id]}", :name => "#{row[:name]}", :action => "resellerInfo" %></td>
+					<td><%= "$" %><%= row[:revenue].to_f.round(2)%></td>
+					<td><%= "$" %><%= row[:cost].to_f.round(2) %></td>
+					<td><%= "$" %><%= row[:margin].to_f.round(2) %></td>
+					<td><%= "0 %"%></td>
+					<td><%=  ("#{row[:minutes]}").to_i %></td>
+					<td><%= "#{row[:num_calls]}" %></td>
+					<% arr = (row[:minutes].to_f/row[:num_calls].to_f).to_s.split('.') %>
+					<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+					<td><%= "#{row[:asr]}%" %></td>
+				  </tr>
+				<% end %>
+				<tr style='background-color:#D71920; border:solid 1px;'>
+					<td><%= "Total:" %></td>
+					<td><%= "$ " %><%= @total_revenue_resellers.round(1) %></td>
+					<td><%= "$ " %><%= @total_cost_resellers.round(1) %></td>
+					<td><%= "$ " %><%= (@total_revenue_resellers-@total_cost_resellers).round(1) %></td>
+					<td></td>
+					<td><%= @total_minutes_resellers.to_f.round(0) %></td>
+					<td><%= @total_calls_resellers %></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
 		<strong>Top Carriers!</strong>
 
-		<table>
+		<table style='width=100%; cellpadding=0; cellspacing=0; border=0'>
 			<thead>
 				<th><%= "Name" %></th>
 				<th><%= "Revenue" %></th>
@@ -45,28 +104,40 @@
 				<th><%= "ACD" %></th>
 			</thead>
 			<tbody>
-				<% @selected_vendors.each do |key, value| %>
+				<% @selected_vendors.each do |row| %>
 				  <tr>
-					<td><%= link_to "#{key}", :id => "#{value[5]}", :name => "#{key}", :action => "carrierInfo" %></td>
-					<td><%= "$" %><%= (value[0].to_f).round(2) %></td>
-					<td><%= "$" %><%= (value[1].to_f).round(2) %></td>
-					<td><%= "$" %><%= (value[2].to_f).round(2) %></td>
-					<% per = (value[2]/value[0] * 100).to_f.round(0) %>
-					<td><%= per.to_s + '%'%></td>
-					<td><%=  ("#{value[3]}").to_i %></td>
-					<td><%= "#{value[4]}" %></td>
-					<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
+					<td><%= link_to "#{row[:name]}", :id => "#{row[:id]}", :name => "#{row[:name]}", :action => "carrierInfo" %></td>
+					<td><%= "$" %><%= row[:revenue].to_f.round(2) %></td>
+					<td><%= "$" %><%=  row[:cost].to_f.round(2) %></td>
+					<td><%= "$" %><%= row[:margin].to_f.round(2) %></td>
+					<% per = (row[:margin]/row[:revenue] * 100).to_f.round(2) %>
+					<% if per >= 0 %>
+						<td><%= per.to_s + "%"%></td>
+					<% else %>
+						<td><%= "N/A" %></td>
+					<% end %>
+					<td><%=  ("#{row[:minutes]}").to_i %></td>
+					<td><%= "#{row[:num_calls]}" %></td>
+					<% arr = (row[:minutes].to_f/row[:num_calls].to_f).to_s.split('.') %>
 					<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
 				  </tr>
 				<% end %>
+				<tr style='background-color:#D71920; border:solid 1px;'>
+					<td><%= "Total:" %></td>
+					<td><%= "$ " %><%= @total_revenue_carriers.round(1) %></td>
+					<td><%= "$ " %><%= @total_cost_carriers.round(1) %></td>
+					<td><%= "$ " %><%= (@total_revenue_carriers-@total_cost_carriers).round(1) %></td>
+					<td></td>
+					<td><%= @total_minutes_carriers.to_f.round(0) %></td>
+					<td><%= @total_calls_carriers %></td>
+					<td></td>
+					<td></td>
+				</tr>
 			</tbody>
 		</table>
-	</div>
-
-	<div id="table_right">
 		<strong>Top Traffic  (Last 7 days)!</strong>
 
-		<table>
+		<table style='width=100%; cellpadding=0; cellspacing=0; border=0'>
 			<thead>
 				<th><%= "Calldate" %></th>
 				<th><%= "Revenue" %></th>
@@ -74,25 +145,24 @@
 				<th><%= "Margin" %></th>
 				<th><%= "%" %></th>
 				<th><%= "Minutes" %></th>
-				<th><%= "Number of Calls" %></th>
-				<th><%= "ACD" %></th>
 			</thead>
 			<tbody>
-				<% @week_traffic_refined.each do |key, value| %>
+				<% @week_traffic_refined.each do |row| %>
 				  <tr>
-				  	<td><%= key %></td>
-					<td><%= "$" %><%= (value[0].to_f).round(2) %></td>
-					<td><%= "$" %><%= (value[1].to_f).round(2) %></td>
-					<td><%= "$" %><%= (value[2].to_f).round(2) %></td>
-					<% per = (value[2]/value[0] * 100).to_f.round(0) %>
-					<td><%= per.to_s + '%'%></td>
-					<td><%=  ("#{value[3]}").to_i %></td>
-					<td><%= "#{value[4]}" %></td>
-					<% arr = (value[3].to_f/value[4].to_f).to_s.split('.') %>
-					<td><%= arr[0] + ":" + (arr[1][0..1].to_i*6/10).to_s %></td>
+				  	<td><%= row[:calldate] %></td>
+				  	<td><%= "$" %><%= row[:revenue].to_f.round(2) %></td>
+					<td><%= "$" %><%=  row[:cost].to_f.round(2) %></td>
+					<td><%= "$" %><%= row[:margin].to_f.round(2) %></td>
+					<% per = 0#(row[:margin]/row[:revenue] * 100).to_f.round(2) %>
+					<% if per >= 0 %>
+						<td><%= per.to_s + "%"%></td>
+					<% else %>
+						<td><%= "N/A" %></td>
+					<% end %>
+					<td><%=  ("#{row[:minutes]}").to_i %></td>
 				  </tr>
 				<% end %>
 			</tbody>
 		</table>
-	</div>
-</div>
+	</td>
+</table>
