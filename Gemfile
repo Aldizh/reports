@@ -1,25 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.14'
+ruby '2.1.5'
+
+gem 'rails', '4.2.3'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'devise'
 gem 'savon'
-group :production, :development do
-	gem 'mysql2'
-end
-group :test do
-	gem 'sqlite3'
-end
-
+gem 'mysql2', '~> 0.3.18'
 gem "rest-client", "~>1.6.7"
 gem "sequel", "~> 3.47.0"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
+  gem 'sass-rails'
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
